@@ -1,12 +1,9 @@
 package lopesperdizes.com.br.app;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,62 +17,101 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static lopesperdizes.com.br.app.base.tipo.VENDA;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Context context;
+    Toolbar toolbar;
     Button instabtn;
+    AutoCompleteTextView tipo,tipo_moradia;
+    Spinner spinner_tipo,spinner_tipo_moradia;
+    EditText endereco, referencia;
+    DrawerLayout drawer;
+    ViewPager banner_img;
+    LinearLayout sliderDots;
+    ListView lst_main;
+    List<base> lstImoveis = new ArrayList<>();
+    private int dotscount;
+    private ImageView[] dots;
+    baseAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        tipo =  findViewById(R.id.tipo);
+        tipo_moradia =  findViewById(R.id.tipo_moradia);
+        spinner_tipo =  findViewById(R.id.spinner_tipo);
+        drawer =  findViewById(R.id.drawer_layout);
+        endereco =  findViewById(R.id.endereco);
+        referencia =  findViewById(R.id.referencia);
+        banner_img =  findViewById(R.id.banner_img);
+        sliderDots =  findViewById(R.id.sliderDots);
+        lst_main =  findViewById(R.id.lst_main);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        instabtn = findViewById(R.id.instabtn);
-        instabtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent instaintent = context.getPackageManager().getLaunchIntentForPackage("com.instagram.android");
-                instaintent.setComponent(new ComponentName( "com.instagram.android", "com.instagram.android.activity.UrlHandlerActivity"));
-                instaintent.setData( Uri.parse( "https://www.instagram.com/_u/bitter_truth_lol") );
-                startActivity(instaintent);
-            }
-        });
 
         //set auto complete
-        final AutoCompleteTextView textView =  findViewById(R.id.edit_ip);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.myarray));
-        textView.setAdapter(adapter);
+        spinner_tipo_moradia =  findViewById(R.id.spinner_tipo_moradia);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo));
+        ArrayAdapter<String> adapter2 =
+                new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.tipo_moradia));
+        tipo.setAdapter(adapter);
+        tipo_moradia.setAdapter(adapter2);
         //set spinner
-        final Spinner spinner =  findViewById(R.id.spinner_ip);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinner_tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                textView.setText(spinner.getSelectedItem().toString());
-                textView.dismissDropDown();
+                tipo.setText(spinner_tipo.getSelectedItem().toString());
+                tipo.dismissDropDown();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                textView.setText(spinner.getSelectedItem().toString());
-                textView.dismissDropDown();
+                tipo.setText(spinner_tipo.getSelectedItem().toString());
+                tipo.dismissDropDown();
             }
         });
+        spinner_tipo_moradia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tipo_moradia.setText(spinner_tipo_moradia.getSelectedItem().toString());
+                tipo_moradia.dismissDropDown();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                tipo_moradia.setText(spinner_tipo_moradia.getSelectedItem().toString());
+                tipo_moradia.dismissDropDown();
+            }
+        });
+
+        ViewPageAdapter adapter1 = new ViewPageAdapter(context,lstImoveis);
+        banner_img.setAdapter(adapter1);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -92,27 +128,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_camera) {
-            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -122,8 +149,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

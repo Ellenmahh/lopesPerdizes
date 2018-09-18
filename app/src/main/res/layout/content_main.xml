@@ -1,36 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
-    tools:showIn="@layout/app_bar_main">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"/>
+    android:layout_marginTop="50dp"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_marginBottom="20dp"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <AutoCompleteTextView
-            android:layout_weight="1"
-            android:id="@+id/edit_ip"
-            android:text="default value"
-            android:layout_width="0dp"
-            android:layout_height= "wrap_content"/>
-        <Spinner
-            android:layout_marginRight="20dp"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:id="@+id/spinner_ip"
-            android:spinnerMode="dropdown"
-            android:entries="@array/myarray"/>
-    </LinearLayout>
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:src="@drawable/logo"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_menu_manage"
+                android:text="Entrar / Registrar"
+                android:layout_marginBottom="20dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
+                android:padding="10dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Cadastrar Imóvel"/>
 
-</android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <AutoCompleteTextView
+                    android:layout_weight="1"
+                    android:id="@+id/tipo"
+                    android:hint="Todos"
+                    android:layout_width="0dp"
+                    android:layout_height= "wrap_content"/>
+                <Spinner
+                    android:layout_marginRight="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_tipo"
+                    android:spinnerMode="dropdown"
+                    android:entries="@array/tipo"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <AutoCompleteTextView
+                    android:layout_weight="1"
+                    android:id="@+id/tipo_moradia"
+                    android:hint="Todos"
+                    android:layout_width="0dp"
+                    android:layout_height= "wrap_content"/>
+                <Spinner
+                    android:layout_marginRight="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/spinner_tipo_moradia"
+                    android:spinnerMode="dropdown"
+                    android:entries="@array/tipo_moradia"/>
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/endereco"
+                android:hint="Digite um bairro, cidade ou região"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/referencia"
+                android:hint="Referência"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:text="Procurar"/>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/linear_galeria_feed"
+                android:orientation="vertical">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/banner_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp">
+                </android.support.v4.view.ViewPager>
+                <LinearLayout
+                    android:id="@+id/sliderDots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
+                <lopesperdizes.com.br.app.MyListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lst_main"
+                    android:divider="@color/colorPrimary">
+                </lopesperdizes.com.br.app.MyListView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

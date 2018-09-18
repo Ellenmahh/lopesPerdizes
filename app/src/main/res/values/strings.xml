@@ -6,8 +6,18 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string-array name="myarray">
-        <item>value1</item>
-        <item>value2</item>
+
+    <string-array name="tipo">
+        <item>Todos</item>
+        <item>Comprar</item>
+        <item>Alugar</item>
     </string-array>
+
+    <string-array name="tipo_moradia">
+        <item>Todos</item>
+        <item>Casa</item>
+        <item>Condominio</item>
+        <item>Sobrado</item>
+    </string-array>
+
 </resources>
